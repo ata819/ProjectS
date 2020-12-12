@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ProjectS</string>
+
+    <string name="image_contentDescription">image</string>
+    <string name="let_s_get_started_text">Let\'s Get Started</string>
+    <string name="intro_text_description">Schedule Your Life Now </string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="sign_up">SIGN UP</string>
+</resources>

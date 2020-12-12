@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#D31D42</color>
+    <color name="colorPrimaryDark">#981827</color>
+    <color name="colorAccent">#D31D42</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Primary brand color. -->
+    <color name="red">#EF182D</color>
+    <color name="orange">#FA6138</color>
+    <color name="orangeYellow">#FCBE4A</color>
+    <!-- Secondary brand color. -->
+    <color name="purple">#77299F</color>
+    <color name="purpleMagenta">#912375</color>
+    <color name="magenta">#A12467</color>
+    
+    <color name="primary_text_color">#363A43</color>
+    <color name="secondary_text_color">#7A8089</color>
+    
+</resources>
