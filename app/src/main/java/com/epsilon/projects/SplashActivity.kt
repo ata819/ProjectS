@@ -14,18 +14,6 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Handles API => 30
-        @Suppress("DEPRECATION")
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.hide(WindowInsets.Type.statusBars())
-        }
-        else {
-            window.setFlags(
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
-        }
-
         val typeFace: Typeface = Typeface.createFromAsset(assets,"SFQuartzite.ttf")
         //tv_app_name.typeface = typeFace
         Handler().postDelayed({

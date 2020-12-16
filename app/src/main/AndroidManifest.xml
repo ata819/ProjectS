@@ -9,10 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectS">
-        <activity android:name=".IntroActivty"
+        <activity android:name=".SignInActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.ProjectS.NoActionBar"
-            ></activity>
+            android:theme="@style/Theme.ProjectS.NoActionBar" />
+        <activity
+            android:name=".SignUpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ProjectS.NoActionBar" />
+        <activity
+            android:name=".IntroActivty"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ProjectS.NoActionBar" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
