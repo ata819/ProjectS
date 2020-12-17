@@ -1,13 +1,11 @@
-package com.epsilon.projects
+package com.epsilon.projects.activities
 
 import android.content.Intent
 import android.graphics.Typeface
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.view.WindowInsets
-import android.view.WindowManager
+import com.epsilon.projects.R
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +15,7 @@ class SplashActivity : AppCompatActivity() {
         val typeFace: Typeface = Typeface.createFromAsset(assets,"SFQuartzite.ttf")
         //tv_app_name.typeface = typeFace
         Handler().postDelayed({
-            startActivity(Intent(this,IntroActivty::class.java))
+            startActivity(Intent(this, IntroActivty::class.java))
             finish()
         }, 2500)
     }

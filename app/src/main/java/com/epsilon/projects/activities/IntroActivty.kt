@@ -1,4 +1,4 @@
-package com.epsilon.projects
+package com.epsilon.projects.activities
 
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_intro_activty.*
 import android.content.Intent
-import kotlinx.android.synthetic.main.activity_sign_in.*
+import com.epsilon.projects.R
 
 class IntroActivty : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,11 +26,11 @@ class IntroActivty : AppCompatActivity() {
         }
 
         btn_sign_in_intro.setOnClickListener{
-            startActivity(Intent(this,SignInActivity::class.java))
+            startActivity(Intent(this, SignInActivity::class.java))
         }
 
         btn_sign_up_intro.setOnClickListener{
-            startActivity(Intent(this,SignUpActivity::class.java))
+            startActivity(Intent(this, SignUpActivity::class.java))
         }
 
 

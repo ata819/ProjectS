@@ -1,8 +1,8 @@
-package com.epsilon.projects
+package com.epsilon.projects.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_main.*
+import com.epsilon.projects.R
 
 
 class MainActivity : AppCompatActivity() {
