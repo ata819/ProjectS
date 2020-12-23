@@ -8,11 +8,15 @@ import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_intro_activty.*
 import android.content.Intent
 import com.epsilon.projects.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class IntroActivty : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro_activty)
+
         // Handles API => 30
         @Suppress("DEPRECATION")
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -25,6 +29,7 @@ class IntroActivty : AppCompatActivity() {
             )
         }
 
+
         btn_sign_in_intro.setOnClickListener{
             startActivity(Intent(this, SignInActivity::class.java))
         }
@@ -32,7 +37,6 @@ class IntroActivty : AppCompatActivity() {
         btn_sign_up_intro.setOnClickListener{
             startActivity(Intent(this, SignUpActivity::class.java))
         }
-
-
     }
+
 }
