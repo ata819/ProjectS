@@ -1,10 +1,11 @@
 package com.epsilon.projects.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import com.epsilon.projects.R
+import com.epsilon.projects.firebase.FirestoreClass
+import com.epsilon.projects.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_sign_up.*
@@ -14,6 +15,14 @@ class SignUpActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
         setupActionBar()
+    }
+
+    fun userRegisteredSuccess(){
+        Toast.makeText(this, "You have " +
+                "successfully registered", Toast.LENGTH_LONG).show()
+        hideProgressDialog()
+        FirebaseAuth.getInstance().signOut()
+        finish()
     }
 
     private fun setupActionBar(){
@@ -40,14 +49,11 @@ class SignUpActivity : BaseActivity() {
             showProgressDialog(resources.getString(R.string.please_wait))
             FirebaseAuth.getInstance()
                     .createUserWithEmailAndPassword(email,password).addOnCompleteListener { task ->
-                        hideProgressDialog()
                         if (task.isSuccessful) {
                             val firebaseUser: FirebaseUser = task.result!!.user!!
                             val registeredEmail = firebaseUser.email!!
-                            Toast.makeText(this, "$name, you have " +
-                                    "successfully registered the email $registeredEmail", Toast.LENGTH_LONG).show()
-                            FirebaseAuth.getInstance().signOut()
-                            finish()
+                            val user = User(firebaseUser.uid, name, registeredEmail)
+                            FirestoreClass().registerUser(this, user)
                         } else {
                             Toast.makeText(this,
                                     "Registration failed", Toast.LENGTH_SHORT).show()

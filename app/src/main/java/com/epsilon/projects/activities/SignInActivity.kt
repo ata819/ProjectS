@@ -6,6 +6,8 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import com.epsilon.projects.R
+import com.epsilon.projects.firebase.FirestoreClass
+import com.epsilon.projects.models.User
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.activity_sign_in.et_email_sign_in
@@ -25,6 +27,14 @@ class SignInActivity : BaseActivity() {
 
         setupActionBar()
     }
+
+    fun signInSuccess(user: User){
+        hideProgressDialog()
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+
+    }
+
     private fun setupActionBar(){
         setSupportActionBar(toolbar_sign_in_activity)
 
@@ -46,11 +56,7 @@ class SignInActivity : BaseActivity() {
                     .addOnCompleteListener(this) { task ->
                         hideProgressDialog()
                         if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("Sign In", "createUserWithEmail:success")
-                            val user = auth.currentUser
-                            startActivity(Intent(this, MainActivity::class.java))
-
+                            FirestoreClass().signInUser(this)
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("Sign In", "createUserWithEmail:failure", task.exception)
