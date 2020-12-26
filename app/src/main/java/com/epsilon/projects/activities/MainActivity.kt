@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.epsilon.projects.R
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

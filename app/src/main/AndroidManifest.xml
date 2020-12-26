@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectS">
-        <activity android:name=".activities.BaseActivity"></activity>
+
+        <!--<activity android:name=".activities.BaseActivity"></activity> -->
+
         <activity
             android:name=".activities.SignInActivity"
             android:screenOrientation="portrait"
@@ -32,13 +34,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ProjectS.NoActionBar"/>
+
     </application>
 
 </manifest>
