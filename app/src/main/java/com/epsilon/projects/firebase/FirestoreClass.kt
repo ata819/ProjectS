@@ -1,6 +1,9 @@
 package com.epsilon.projects.firebase
 
+import android.app.Activity
 import android.util.Log
+import com.epsilon.projects.activities.MainActivity
+import com.epsilon.projects.activities.MyProfileActivity
 import com.epsilon.projects.activities.SignInActivity
 import com.epsilon.projects.activities.SignUpActivity
 import com.epsilon.projects.models.User
@@ -25,16 +28,37 @@ class FirestoreClass {
 
     }
 
-    fun signInUser(activity: SignInActivity){
+    fun loadUserData(activity: Activity){
         mFireStore.collection(Constants.USERS)
                 .document(getCurrentUserID())
                 .get()
                 .addOnSuccessListener { document ->
                     val loggedInUser = document.toObject(User::class.java)
-                    if(loggedInUser != null)
-                        activity.signInSuccess(loggedInUser)
+
+                    when(activity){
+                        is SignInActivity ->{
+                            if(loggedInUser != null)
+                                activity.signInSuccess(loggedInUser)
+                        }
+                        is MainActivity ->{
+                            if(loggedInUser != null)
+                                activity.updateNavigationUserDetails(loggedInUser)
+                        }
+                        is MyProfileActivity ->{
+                            if(loggedInUser != null)
+                                activity.setUserDataInUI(loggedInUser)
+                        }
+                    }
                 }.addOnFailureListener{
                     e->
+                when(activity){
+                    is SignInActivity ->{
+                            activity.hideProgressDialog()
+                    }
+                    is MainActivity ->{
+                            activity.hideProgressDialog()
+                    }
+                }
                     Log.e("SignInUser", "Error Writing Document", e)
                 }
 
