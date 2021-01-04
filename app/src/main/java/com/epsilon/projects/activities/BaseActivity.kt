@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.dialog_process.*
 
+// A class to handle basic functions the are applicable to all parts of the application
 open class BaseActivity : AppCompatActivity() {
 
      private var doubleBackToExitPressedOnce = false
@@ -22,6 +23,7 @@ open class BaseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_base)
     }
 
+    // A function to handle the progress dialog to the user.
      fun showProgressDialog(text: String){
          mProgressDialog = Dialog(this)
 
@@ -33,6 +35,7 @@ open class BaseActivity : AppCompatActivity() {
 
      }
 
+    // Hides the progress dialog
     fun hideProgressDialog(){
         mProgressDialog.dismiss()
     }
@@ -41,6 +44,7 @@ open class BaseActivity : AppCompatActivity() {
         return FirebaseAuth.getInstance().currentUser!!.uid
     }
 
+    // Handles the back feature throughout the program
     fun doubleBackToExit(){
         if(doubleBackToExitPressedOnce){
             super.onBackPressed()
@@ -56,6 +60,7 @@ open class BaseActivity : AppCompatActivity() {
         Handler().postDelayed({doubleBackToExitPressedOnce = false}, 2000)
     }
 
+    // Handles the error messages for sign in/up functions
     fun showErrorSnackBar(message:String){
         val snackBar = Snackbar.make(findViewById(android.R.id.content),
                 message, Snackbar.LENGTH_LONG)
@@ -64,7 +69,5 @@ open class BaseActivity : AppCompatActivity() {
                 R.color.snackbar_error_color))
         snackBar.show()
     }
-
-
 
 }

@@ -28,6 +28,7 @@ class SignInActivity : BaseActivity() {
         setupActionBar()
     }
 
+    // A function to get the user info from Firestore database after authentication
     fun signInSuccess(user: User){
         hideProgressDialog()
         startActivity(Intent(this, MainActivity::class.java))
@@ -46,12 +47,18 @@ class SignInActivity : BaseActivity() {
         toolbar_sign_in_activity.setNavigationOnClickListener{onBackPressed()}
 
     }
+
+    // A function that handles the SIGN IN of the user, using name and email address
     private fun signInRegisteredUser(){
+
+        // retrieves the text from AppCompactEditText and trims the spaces
         val email: String = et_email_sign_in.text.toString().trim{it <= ' '}
         val password: String = et_password_sign_in.text.toString().trim{it <= ' '}
 
         if(validateForm(email,password)){
             showProgressDialog(resources.getString(R.string.please_wait))
+            
+            // Using FirebaseAuth to SIGN IN, providing the email and password
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         hideProgressDialog()
