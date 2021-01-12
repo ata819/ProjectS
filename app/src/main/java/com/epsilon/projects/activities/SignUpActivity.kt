@@ -40,21 +40,28 @@ class SignUpActivity : BaseActivity() {
         }
     }
 
+    // A function used to register a new user into the Firebase (Auth, Cloud, Storage, etc.)
     private fun registerUser(){
+        // editText provides the info and is trimmed for spaces
         val name: String = et_name.text.toString().trim{it <= ' '}
         val email: String = et_email.text.toString().trim { it <= ' ' }
         val password: String = et_password.text.toString().trim{it <= ' '}
 
+        // If the info provided is valid
         if(validateForm(name, email, password)){
             showProgressDialog(resources.getString(R.string.please_wait))
+
+            // Firebase function that uses the info to create the user account
             FirebaseAuth.getInstance()
                     .createUserWithEmailAndPassword(email,password).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             val firebaseUser: FirebaseUser = task.result!!.user!!
                             val registeredEmail = firebaseUser.email!!
                             val user = User(firebaseUser.uid, name, registeredEmail)
+                            // Calls the registerUser function to register/add the user info into the Firebase Database
                             FirestoreClass().registerUser(this, user)
                         } else {
+                            // If the task fails and is unable to register the user
                             Toast.makeText(this,
                                     "Registration failed", Toast.LENGTH_SHORT).show()
                         }

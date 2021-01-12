@@ -59,4 +59,12 @@
     <dimen name="my_profile_et_mobile_marginTop">20dp</dimen>
     <dimen name="my_profile_btn_update_marginTop">30dp</dimen>
 
+    <!-- Dimensions for main_content.xml (Buttons) -->
+    <dimen name="days_btn_padding">20dp</dimen>
+    <dimen name="days_btn_marginTop">20dp</dimen>
+    <dimen name="days_btn_marginStartEnd">30</dimen>
+    <dimen name="days_text_size">15dp</dimen>
+
+
+
 </resources>

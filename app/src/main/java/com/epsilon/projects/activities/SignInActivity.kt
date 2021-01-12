@@ -77,6 +77,8 @@ class SignInActivity : BaseActivity() {
         }
     }
 
+
+    // Handles validation of an existing user. No empty blanks
     private fun validateForm(email: String, password:String) : Boolean{
         return when{
             TextUtils.isEmpty(email) ->{
