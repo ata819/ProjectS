@@ -6,82 +6,158 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-    <HorizontalScrollView
-        android:id="@+id/date_scroll_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="@dimen/card_view_corner_radius"
         >
 
-        <LinearLayout
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/task_today_text_marginTop"
+            android:layout_marginStart="@dimen/task_today_text_marginStarEnd"
+            android:layout_marginEnd="@dimen/task_today_text_marginStarEnd"
+            android:gravity="center"
+            android:text="@string/task_today"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/days_text_size"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/task_complete_text_marginTop"
+            android:layout_marginStart="@dimen/task_complete_text_marginStartEnd"
+            android:layout_marginEnd="@dimen/task_complete_text_marginStartEnd"
+            android:gravity="center"
+            android:text="@string/task_completed"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/days_text_size"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/task_missed_text_marginTop"
+            android:layout_marginStart="@dimen/task_missed_text_marginStartEnd"
+            android:layout_marginEnd="@dimen/task_missed_text_marginStartEnd"
+            android:gravity="center"
+            android:text="@string/task_missed"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/days_text_size"/>
+
+
+        <HorizontalScrollView
+            android:id="@+id/date_scroll_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="250dp"
-            android:orientation="horizontal">
+            android:layout_gravity="center_horizontal">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_Monday"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_button_rounded"
-                android:foreground="?attr/selectableItemBackground"
-                android:textColor="@android:color/white"
-                android:text="@string/monday" />
+                android:layout_marginTop="@dimen/days_btn_groups_margin"
+                android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_Tuesday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_button_rounded"
-                android:foreground="?attr/selectableItemBackground"
-                android:textColor="@android:color/white"
-                android:text="@string/tuesday" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_Monday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/days_btn_margin"
+                    android:width="@dimen/days_btn_width"
+                    android:height="@dimen/days_btn_height"
+                    android:background="@drawable/shape_button_rounded"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="@string/monday"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/days_text_size" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_Wednesday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_button_rounded"
-                android:foreground="?attr/selectableItemBackground"
-                android:textColor="@android:color/white"
-                android:text="@string/wednesday" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_Tuesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/days_btn_margin"
+                    android:width="@dimen/days_btn_width"
+                    android:height="@dimen/days_btn_height"
+                    android:background="@drawable/shape_button_rounded"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="@string/tuesday"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/days_text_size" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_Thursday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_button_rounded"
-                android:foreground="?attr/selectableItemBackground"
-                android:textColor="@android:color/white"
-                android:text="@string/thursday" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_Wednesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/days_btn_margin"
+                    android:width="@dimen/days_btn_width"
+                    android:height="@dimen/days_btn_height"
+                    android:background="@drawable/shape_button_rounded"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="@string/wednesday"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/days_text_size" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_Friday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_button_rounded"
-                android:foreground="?attr/selectableItemBackground"
-                android:textColor="@android:color/white"
-                android:text="@string/friday" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_Thursday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/days_btn_margin"
+                    android:width="@dimen/days_btn_width"
+                    android:height="@dimen/days_btn_height"
+                    android:background="@drawable/shape_button_rounded"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="@string/thursday"
+                    android:textColor="@android:color/white"
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_Saturday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_button_rounded"
-                android:foreground="?attr/selectableItemBackground"
-                android:textColor="@android:color/white"
-                android:text="@string/saturday" />
+                    android:textSize="@dimen/days_text_size" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_Sunday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_button_rounded"
-                android:foreground="?attr/selectableItemBackground"
-                android:textColor="@android:color/white"
-                android:text="@string/sunday" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_Friday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/days_btn_margin"
+                    android:width="@dimen/days_btn_width"
+                    android:height="@dimen/days_btn_height"
+                    android:background="@drawable/shape_button_rounded"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="@string/friday"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/days_text_size" />
 
-        </LinearLayout>
-    </HorizontalScrollView>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_Saturday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/days_btn_margin"
+                    android:width="@dimen/days_btn_width"
+                    android:height="@dimen/days_btn_height"
+                    android:background="@drawable/shape_button_rounded"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="@string/saturday"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/days_text_size" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_Sunday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/days_btn_margin"
+                    android:width="@dimen/days_btn_width"
+                    android:height="@dimen/days_btn_height"
+                    android:background="@drawable/shape_button_rounded"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="@string/sunday"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/days_text_size" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

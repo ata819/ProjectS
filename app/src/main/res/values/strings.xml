@@ -22,7 +22,10 @@
     <string name="mobile">Mobile</string>
     <string name="update">UPDATE</string>
     <string name="my_profile_title">My Profile</string>
-    
+
+    <string name="task_today">Task Today: </string>
+    <string name="task_completed">Task Completed: </string>
+    <string name="task_missed">Task Missed: </string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
     <string name="wednesday">Wednesday</string>

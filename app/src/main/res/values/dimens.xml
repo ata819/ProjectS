@@ -59,10 +59,20 @@
     <dimen name="my_profile_et_mobile_marginTop">20dp</dimen>
     <dimen name="my_profile_btn_update_marginTop">30dp</dimen>
 
+    <!-- Dimensions for main_content.xml -->
+    <dimen name="task_today_text_marginStarEnd">25dp</dimen>
+    <dimen name="task_today_text_marginTop">65dp</dimen>
+    <dimen name="task_complete_text_marginStartEnd">25dp</dimen>
+    <dimen name="task_complete_text_marginTop">85dp</dimen>
+    <dimen name="task_missed_text_marginStartEnd">25dp</dimen>
+    <dimen name="task_missed_text_marginTop">105dp</dimen>
+
     <!-- Dimensions for main_content.xml (Buttons) -->
+    <dimen name="days_btn_height">300dp</dimen>
+    <dimen name="days_btn_width">100dp</dimen>
     <dimen name="days_btn_padding">20dp</dimen>
-    <dimen name="days_btn_marginTop">20dp</dimen>
-    <dimen name="days_btn_marginStartEnd">30</dimen>
+    <dimen name="days_btn_groups_margin">200dp</dimen>
+    <dimen name="days_btn_margin">20dp</dimen>
     <dimen name="days_text_size">15dp</dimen>
 
 
