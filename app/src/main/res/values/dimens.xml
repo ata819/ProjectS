@@ -75,6 +75,41 @@
     <dimen name="days_btn_margin">20dp</dimen>
     <dimen name="days_text_size">15dp</dimen>
 
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="create_household_content_padding">16dp</dimen>
+    <dimen name="household_image_size">100dp</dimen>
+    <dimen name="create_household_til_marginTop">25dp</dimen>
+    <dimen name="create_household_btn_marginTop">30dp</dimen>
+
+    <dimen name="main_screen_content_padding">16dp</dimen>
+    <dimen name="no_houses_available_text_size">16sp</dimen>
+    <dimen name="item_household_content_marginBottom">10dp</dimen>
+    <dimen name="item_household_content_padding">10dp</dimen>
+    <dimen name="item_household_image_size">60dp</dimen>
+    <dimen name="item_household_image_circular_boarder_width">0.5dp</dimen>
+    <dimen name="item_household_name_layout_marginStart">10dp</dimen>
+    <dimen name="item_household_name_layout_marginLeft">0dp</dimen>
+    <dimen name="item_household_name_text_size">18sp</dimen>
+    <dimen name="item_household_created_by_text_size">14sp</dimen>
+    <dimen name="item_household_divider_marginTop">5dp</dimen>
+    <dimen name="item_household_divider_height">0.3dp</dimen>
+
+    <dimen name="chore_list_content_padding">10dp</dimen>
+
+    <dimen name="chore_item_cv_elevation">5dp</dimen>
+    <dimen name="chore_item_add_item_text_padding">12dp</dimen>
+    <dimen name="chore_item_add_item_text_size">18sp</dimen>
+    <dimen name="chore_item_cv_margin">5dp</dimen>
+    <dimen name="chore_item_cv_corner_radius">5dp</dimen>
+    <dimen name="chore_item_image_buttons_padding">10dp</dimen>
+    <dimen name="chore_item_title_view_elevation">10dp</dimen>
+    <dimen name="chore_item_title_text_padding">10dp</dimen>
+    <dimen name="chore_item_title_text_size">16sp</dimen>
+    <dimen name="chore_item_divider_height">0.5dp</dimen>
+    <dimen name="chore_item_rv_card_list_margin">5dp</dimen>
+    <dimen name="chore_item_add_card_text_elevation">10dp</dimen>
+
+    
 
 
 </resources>

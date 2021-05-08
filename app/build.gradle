@@ -10,6 +10,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.epsilon.projects"
         minSdkVersion 16
         targetSdkVersion 30

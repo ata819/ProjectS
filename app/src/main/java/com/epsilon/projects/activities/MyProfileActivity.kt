@@ -29,12 +29,6 @@ import java.io.IOException
 
 class MyProfileActivity : BaseActivity() {
 
-    // Unique codes for IDing which permission is needed to be allowed
-    companion object{
-        private const val  READ_STORAGE_PERMISSION_CODE = 1
-        private const val PICK_IMAGE_REQUEST_CODE = 2
-    }
-
     // A global variable for the URI for an image on the user's phone
     private var mSelectedImageFileUri: Uri? = null
 
@@ -71,14 +65,14 @@ class MyProfileActivity : BaseActivity() {
             if(ContextCompat.checkSelfPermission(
                             this, Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED){
-                showImageChooser()
+                Constants.showImageChooser(this)
 
             } else{
                 // Asks for permission to access the phones service from the AndroidManifest
                 ActivityCompat.requestPermissions(
                         this,
                         arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                        READ_STORAGE_PERMISSION_CODE
+                        Constants.READ_STORAGE_PERMISSION_CODE
                 )
             }
         }
@@ -102,9 +96,9 @@ class MyProfileActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         // If permission is granted
-        if(requestCode == READ_STORAGE_PERMISSION_CODE){
+        if(requestCode == Constants.READ_STORAGE_PERMISSION_CODE){
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                showImageChooser()
+                Constants.showImageChooser(this)
             }else{
                 // If permission is denied
                 Toast.makeText(
@@ -122,14 +116,29 @@ class MyProfileActivity : BaseActivity() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
 
         // Launches the image selection update process
-        startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST_CODE)
+        startActivityForResult(galleryIntent, Constants.PICK_IMAGE_REQUEST_CODE)
+    }
+
+    // A function to get the necessary extension for the image
+    private fun getFileExtension(uri: Uri?): String?{
+        /*
+         * MimeTypeMap: Two-way map that maps MIME-types to file extensions and vice versa.
+         *
+         * getSingleton(): Get the singleton instance of MimeTypeMap.
+         *
+         * getExtensionFromMimeType: Return the registered extension for the given MIME type.
+         *
+         * contentResolver.getType: Return the MIME type of the given content URL.
+         */
+        return MimeTypeMap.getSingleton()
+                .getExtensionFromMimeType(contentResolver.getType(uri!!))
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK
-                && requestCode == PICK_IMAGE_REQUEST_CODE
+                && requestCode == Constants.PICK_IMAGE_REQUEST_CODE
                 && data!!.data != null) {
             // The uri of the selected image from phone storage
             mSelectedImageFileUri = data.data
@@ -211,7 +220,7 @@ class MyProfileActivity : BaseActivity() {
             // Creating the reference id for storage
             val sRef : StorageReference = FirebaseStorage.getInstance()
                     .reference.child("USER_IMAGE" + System.currentTimeMillis()
-                            + "." + getFileExtension(mSelectedImageFileUri))
+                            + "." + Constants.getFileExtension(this,mSelectedImageFileUri))
 
             // Adding the file reference string to Firebase cloud
             sRef.putFile(mSelectedImageFileUri!!).addOnSuccessListener {
@@ -236,21 +245,6 @@ class MyProfileActivity : BaseActivity() {
                 hideProgressDialog()
             }
         }
-    }
-
-    // A function to get the necessary extension for the image
-    private fun getFileExtension(uri: Uri?): String?{
-        /*
-         * MimeTypeMap: Two-way map that maps MIME-types to file extensions and vice versa.
-         *
-         * getSingleton(): Get the singleton instance of MimeTypeMap.
-         *
-         * getExtensionFromMimeType: Return the registered extension for the given MIME type.
-         *
-         * contentResolver.getType: Return the MIME type of the given content URL.
-         */
-        return MimeTypeMap.getSingleton()
-                .getExtensionFromMimeType(contentResolver.getType(uri!!))
     }
 
     // A function to notify the user on successful profile update

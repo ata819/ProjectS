@@ -22,15 +22,17 @@
     <string name="mobile">Mobile</string>
     <string name="update">UPDATE</string>
     <string name="my_profile_title">My Profile</string>
+    <string name="nav_my_home">My Home</string>
 
-    <string name="task_today">Task Today: </string>
-    <string name="task_completed">Task Completed: </string>
-    <string name="task_missed">Task Missed: </string>
-    <string name="monday">Monday</string>
-    <string name="tuesday">Tuesday</string>
-    <string name="wednesday">Wednesday</string>
-    <string name="thursday">Thursday</string>
-    <string name="friday">Friday</string>
-    <string name="saturday">Saturday</string>
-    <string name="sunday">Sunday</string>
+    <string name="create_household_title">Add Home</string>
+    <string name="add">ADD</string>
+    <string name="house_name">Residency Name</string>
+
+    <string name="no_houses_are_available">There are no households available</string>
+
+    <string name="action_add_list">Add List</string>
+    <string name="hint_list_name">List Name</string>
+    <string name="action_add_card">Add Card</string>
+    <string name="hint_card_name">Card Name</string>
+    <string name="add_list">Add List</string>
 </resources>
