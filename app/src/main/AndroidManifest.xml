@@ -17,6 +17,10 @@
             android:name=".activities.ChoreListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.ProjectS.NoActionBar" />
+
+        <activity android:name=".activities.ChoreCreateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ProjectS.NoActionBar"/>
         <activity
             android:name=".activities.CreateHouseHoldActivity"
             android:screenOrientation="portrait"

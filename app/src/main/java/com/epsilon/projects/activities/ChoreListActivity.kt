@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.epsilon.projects.R
 import com.epsilon.projects.adapters.ChoreListItemsAdapter
 import com.epsilon.projects.firebase.FirestoreClass
+import com.epsilon.projects.models.Card
 import com.epsilon.projects.models.Chore
 import com.epsilon.projects.models.Household
 import com.epsilon.projects.utils.Constants
@@ -77,6 +78,30 @@ class ChoreListActivity : BaseActivity() {
         showProgressDialog(resources.getString(R.string.please_wait))
 
         FirestoreClass().addUpdateChoreList(this, mHouseDetails)
+    }
+
+    fun addCardToChoreList(position: Int, cardName: String){
+        mHouseDetails.choreList.removeAt(mHouseDetails.choreList.size-1)
+
+        val cardAssignedUsersList: ArrayList<String> = ArrayList()
+        cardAssignedUsersList.add(FirestoreClass().getCurrentUserID())
+
+        val card = Card(cardName, FirestoreClass().getCurrentUserID(), cardAssignedUsersList)
+
+        val cardsList = mHouseDetails.choreList[position].cards
+        cardsList.add(card)
+
+        val chore = Chore(
+                mHouseDetails.choreList[position].title,
+                mHouseDetails.choreList[position].createdBy,
+                cardsList
+        )
+
+        mHouseDetails.choreList[position] = chore
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().addUpdateChoreList(this, mHouseDetails)
+
     }
 
 }
