@@ -11,13 +11,18 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 
+// A class that handles Google Firebase integration with the backend
 class FirestoreClass {
 
+    // Creates an instance of Firebase Firestore to use
     private val mFireStore = FirebaseFirestore.getInstance()
 
+    // Provides registration information to Firebase
     fun registerUser(activity:SignUpActivity, userInfo : User){
         mFireStore.collection(Constants.USERS)
+                // provides the documentation of user id
                 .document(getCurrentUserID())
+                // SetOption is set to merge on userInfo
                 .set(userInfo, SetOptions.merge())
                 .addOnSuccessListener {activity.userRegisteredSuccess()
                 }.addOnFailureListener{
@@ -27,6 +32,7 @@ class FirestoreClass {
 
     }
 
+    // Retrieves housing details
     fun getHouseDetails(activity: ChoreListActivity, documentId : String){
         mFireStore.collection(Constants.HOUSES)
             .document(documentId)
@@ -37,6 +43,7 @@ class FirestoreClass {
 
                 val household = document.toObject(Household::class.java)!!
                 household.documentID = document.id
+
                 activity.householdDetails(household)
 
             }.addOnFailureListener{ e ->
@@ -46,7 +53,7 @@ class FirestoreClass {
             }
     }
 
-
+    // Handles the creation of a new household
     fun createHouse(activity: CreateHouseHoldActivity, house: Household){
         mFireStore.collection(Constants.HOUSES)
                 .document()
@@ -66,8 +73,10 @@ class FirestoreClass {
                 }
     }
 
+    // Retrieves houses list based on the user from Firebase and presents it in th app
     fun getHouseList(activity: MainActivity){
         mFireStore.collection(Constants.HOUSES)
+                // Creates a array query of houses nased on the user and which houses they are assigned to
                 .whereArrayContains(Constants.ASSIGNED_TO, getCurrentUserID())
                 .get()
                 .addOnSuccessListener {
@@ -88,7 +97,8 @@ class FirestoreClass {
                 }
     }
 
-    fun addUpdateChoreList(activity: ChoreListActivity, house:Household){
+    //Handles the creation or update of chores
+    fun addUpdateChoreList(activity: Activity, house:Household){
         val choreListHashMap = HashMap<String, Any>()
         choreListHashMap[Constants.CHORE_LIST] = house.choreList
 
@@ -97,38 +107,63 @@ class FirestoreClass {
                 .update(choreListHashMap)
                 .addOnSuccessListener {
                     Log.e(activity.javaClass.simpleName, "Chore list has been upload success.")
-
-                    activity.addUpdateChoreListSuccess()
+                    if(activity is ChoreListActivity){
+                        activity.addUpdateChoreListSuccess()
+                    }
+                    else if(activity is CardDetailActivity){
+                        activity.addUpdateChoreListSuccess()
+                    }
                 }.addOnFailureListener{
                     exception ->
-                    activity.hideProgressDialog()
+                    if(activity is ChoreListActivity)
+                        activity.hideProgressDialog()
+                    else if (activity is CardDetailActivity)
+                        activity.hideProgressDialog()
                     Log.e(activity.javaClass.simpleName, "Error while creating house", exception)
                 }
     }
 
-    fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>){
-        mFireStore.collection(Constants.USERS)
-            .document(getCurrentUserID())
-            .update(userHashMap)
+    // Updates the user profile and sends it to Firebase when the update button is pressed
+    fun updateUserProfileData(activity: Activity, userHashMap: HashMap<String, Any>){
+        mFireStore.collection(Constants.USERS) // Collection name
+            .document(getCurrentUserID()) // Document ID
+            .update(userHashMap) // A hashmap field of what to update
             .addOnSuccessListener {
                 Log.i(activity.javaClass.simpleName, "Profile Data has updated successfully ")
                 Toast.makeText(activity, "Profile Updated Success", Toast.LENGTH_LONG).show()
-                activity.profileUpdateSuccess()
+                when(activity){
+                    is MainActivity ->{
+                        activity.tokenUpdateSuccess()
+                    }
+                    is MyProfileActivity ->{
+                        activity.profileUpdateSuccess()
+                    }
+
+                }
             }.addOnFailureListener{
                 e ->
-                activity.hideProgressDialog()
+                when(activity){
+                    is MainActivity ->{
+                        activity.hideProgressDialog()
+                    }
+                    is MyProfileActivity ->{
+                        activity.hideProgressDialog()
+                    }
+
+                }
                 Log.e(activity.javaClass.simpleName, "Error while creating a board.", e)
                 Toast.makeText(activity, "Error when updating the profile", Toast.LENGTH_SHORT).show()
             }
     }
 
+    // Used to retrieve use data from the Firestore database
     fun loadUserData(activity: Activity, readHouseholdList: Boolean = false){
         mFireStore.collection(Constants.USERS)
                 .document(getCurrentUserID())
                 .get()
                 .addOnSuccessListener { document ->
                     val loggedInUser = document.toObject(User::class.java)
-
+                    // Depending on what activity that called for it
                     when(activity){
                         is SignInActivity ->{
                             if(loggedInUser != null)
@@ -152,6 +187,9 @@ class FirestoreClass {
                     is MainActivity ->{
                             activity.hideProgressDialog()
                     }
+                    is MyProfileActivity->{
+                        activity.hideProgressDialog()
+                    }
                 }
                     Log.e("SignInUser", "Error Writing Document", e)
                 }
@@ -159,6 +197,7 @@ class FirestoreClass {
 
     }
 
+    // A function to get the user id opf the currently logged in user
     fun getCurrentUserID(): String{
 
         var currentUser = FirebaseAuth.getInstance().currentUser
@@ -170,4 +209,71 @@ class FirestoreClass {
         //return FirebaseAuth.getInstance().currentUser!!.uid
     }
 
+    // A function to get the list of users assign to a specified household
+    fun getAssignedMembersListDetails(activity: Activity, assignedTo: ArrayList<String>){
+        mFireStore.collection(Constants.USERS) // Collection name
+                .whereIn(Constants.ID, assignedTo) // The database field name and IDs of the members
+                .get()
+                .addOnSuccessListener {
+                    document->
+                    Log.e(activity.javaClass.simpleName, document.documents.toString())
+                    val usersList : ArrayList<User> = ArrayList()
+
+                    for(i in document.documents){
+                        // Converts all the document snapshots to the objects using the data model class
+                        val user = i.toObject(User::class.java)!!
+                        usersList.add(user)
+                    }
+                    if(activity is MembersActivity)
+                        activity.setupMembersList(usersList)
+                    else if(activity is ChoreListActivity)
+                        activity.householdMembersDetailsList(usersList)
+                }.addOnFailureListener{ e ->
+                    if(activity is MembersActivity)
+                        activity.hideProgressDialog()
+                    else if(activity is ChoreListActivity)
+                        activity.hideProgressDialog()
+                    Log.e(
+                            activity.javaClass.simpleName, "Error while fetching users", e
+                    )
+                }
+    }
+
+    // A fucntion to get user details from Firestore Database using their email
+    fun getMemberDetails(activity: MembersActivity, email: String){
+        mFireStore.collection(Constants.USERS)
+                .whereEqualTo(Constants.EMAIL, email)
+                .get()
+                .addOnSuccessListener {
+                    document ->
+                    if(document.documents.size > 0){
+                        val user = document.documents[0].toObject(User::class.java)!!
+                        activity.memberDetails(user)
+                    }else{
+                        activity.hideProgressDialog()
+                        activity.showErrorSnackBar("No such member exist")
+                    }
+                }.addOnFailureListener{ e ->
+                    activity.hideProgressDialog()
+                    Log.e(
+                            activity.javaClass.simpleName, "Error while getting user details", e
+                    )
+                }
+    }
+    fun assignMemberToHouse(activity: MembersActivity, household: Household, user: User){
+        val assignedToHashMap = HashMap<String, Any>()
+        assignedToHashMap[Constants.ASSIGNED_TO] = household.assignedTo
+
+        mFireStore.collection(Constants.HOUSES)
+                .document(household.documentID)
+                .update(assignedToHashMap)
+                .addOnSuccessListener {
+                    activity.memberAssignSuccess(user)
+                }.addOnFailureListener{ e ->
+                    activity.hideProgressDialog()
+                    Log.e(activity.javaClass.simpleName, "Error while add member",e)
+
+                }
+
+    }
 }

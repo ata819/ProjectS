@@ -1,7 +1,10 @@
 package com.epsilon.projects.activities
 
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.WindowInsets
+import android.view.WindowManager
 import android.widget.Toast
 import com.epsilon.projects.R
 import com.epsilon.projects.firebase.FirestoreClass
@@ -14,6 +17,17 @@ class SignUpActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+        @Suppress("DEPRECATION")
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        }
+        else {
+            window.setFlags(
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
+
         setupActionBar()
     }
 

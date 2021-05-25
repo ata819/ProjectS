@@ -1,8 +1,11 @@
 package com.epsilon.projects.activities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
+
 import com.google.firebase.auth.FirebaseAuth
 import android.os.Bundle
 import android.util.Log
@@ -19,9 +22,9 @@ import com.epsilon.projects.R
 import com.epsilon.projects.adapters.HouseholdItemsAdapter
 import com.epsilon.projects.firebase.FirestoreClass
 import com.epsilon.projects.models.Household
-import com.epsilon.projects.models.User
 import com.epsilon.projects.utils.Constants
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_chore_list.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -43,6 +46,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     // A global variable for User Name
     private lateinit var mUserName: String
+    private lateinit var mSharedPreferences: SharedPreferences
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -54,10 +58,35 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // This is used to align the xml view to this class
         setContentView(R.layout.activity_main)
 
+        @Suppress("DEPRECATION")
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        }
+        else {
+            window.setFlags(
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
+
         setupActionBar()
 
         // Assign the NavigationView.OnNavigationItemSelectedListener to navigation view.
         nav_view.setNavigationItemSelectedListener(this)
+
+        mSharedPreferences = this.getSharedPreferences(Constants.PROJECTS_PREFERENCES, Context.MODE_PRIVATE)
+        val tokenUpdated = mSharedPreferences.getBoolean(Constants.FCM_TOKEN_UPDATED, false)
+
+        if(tokenUpdated){
+            showProgressDialog(resources.getString(R.string.please_wait))
+            FirestoreClass().loadUserData(this, true)
+        }else{
+            //FirebaseInstallations.getInstance().getToken(true).
+            FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this@MainActivity){
+                instanceIdResult ->
+                updateFCMToken(instanceIdResult.token)
+            }
+        }
 
         // Get the current logged in user details.
         // Show the progress dialog.
@@ -69,6 +98,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             intent.putExtra(Constants.NAME, mUserName)
             startActivityForResult(intent, CREATE_HOUSE_REQUEST_CODE)
         }
+
+
     }
 
     override fun onBackPressed() {
@@ -93,6 +124,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.nav_sign_out -> {
                 // Here sign outs the user from firebase in this device.
                 FirebaseAuth.getInstance().signOut()
+
+                mSharedPreferences.edit().clear().apply()
 
                 // Send the user to the intro screen of the application.
                 val intent = Intent(this, IntroActivty::class.java)
@@ -198,7 +231,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             rv_houses_list.layoutManager = LinearLayoutManager(this)
             rv_houses_list.setHasFixedSize(true)
 
-            // Create an instance of BoardItemsAdapter and pass the boardList to it.
+            // Create an instance of HouseholdItemsAdapter and pass the HouseholdList to it.
             val adapter = HouseholdItemsAdapter(this, householdList)
             rv_houses_list.adapter = adapter // Attach the adapter to the recyclerView.
 
@@ -214,6 +247,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             rv_houses_list.visibility = View.GONE
             tv_no_houses_available.visibility = View.VISIBLE
         }
+    }
+
+    fun tokenUpdateSuccess(){
+        hideProgressDialog()
+        val editor: SharedPreferences.Editor = mSharedPreferences.edit()
+        editor.putBoolean(Constants.FCM_TOKEN_UPDATED, true)
+        editor.apply()
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().loadUserData(this, true)
+    }
+
+    private fun updateFCMToken(token: String){
+        val userHashMap = HashMap<String, Any>()
+        userHashMap[Constants.FCM_TOKEN] = token
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().updateUserProfileData(this, userHashMap)
     }
 
 
